@@ -299,10 +299,11 @@ def _testget_context_item_by_class(
 
     matched_keyval: KeyVal = KeyVal(key=None, val=None)
     matched_keyvals: List[KeyVal] = []
-    for key, val in dict(context).items():
-        if is_a_match(val):
-            matched_keyval = KeyVal(key, val)
-            matched_keyvals.append(matched_keyval)
+    if context:
+        for key, val in dict(context).items():
+            if is_a_match(val):
+                matched_keyval = KeyVal(key, val)
+                matched_keyvals.append(matched_keyval)
     if err_msg:
         assert len(matched_keyvals) == 1, err_msg
         assert matched_keyval.key, err_msg

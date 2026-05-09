@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}
+{{ post.title }} | {% if post.location and post.location.is_published %}{{ post.location.name }} |{% endif %} {{ post.pub_date|date:"d E Y" }}
+{% endblock %}
+{% block content %}
+  <article>
+    <p>{{ post.pub_date|date:"d E Y" }} | {% if post.location and post.location.is_published %}{{ post.location.name }}{% else %}Планета Земля{% endif %}<br>
+      <small>От автора @{{ post.author.username }} в категории {% include "includes/category_link.html" %}</small></p>
+    <h3>{{ post.title }}</h3>
+    <p>{{ post.text|linebreaksbr }}</p>
+    {% if request.user.is_authenticated and request.user == post.author %}
+      <div class="mt-3">
+        <a href="{% url 'blog:edit_post' post.id %}" class="btn btn-sm btn-outline-secondary me-2">Редактировать</a>
+        <a href="{% url 'blog:delete_post' post.id %}" class="btn btn-sm btn-outline-danger">Удалить</a>
+      </div>
+    {% endif %}
+  </article>
+  <hr>
+  {% include "includes/comments.html" %}
+{% endblock %}
